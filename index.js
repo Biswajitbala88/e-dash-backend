@@ -23,13 +23,13 @@ app.post("/signin", async (req, resp)=>{
             if(user){
                 resp.send(user);
             }else{
-                resp.send({result: "No user found"});
+                resp.send({result: 1});
             }
         }else{
-            resp.send({result: "please enter password"});
+            resp.send({result: 2});
         }
     }else{
-        resp.send({result: "please enter email"});
+        resp.send({result: 3});
     }
     
 });

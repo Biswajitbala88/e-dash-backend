@@ -42,4 +42,14 @@ app.post("/add-product", async (req, resp)=>{
     resp.send(result);
 });
 
+// add new product
+app.get("/products", async (req, resp)=>{
+    let result = await Product.find();
+    if(result.length>0){
+        resp.send(result);
+    }else{
+        resp.send({result: "No product found"});
+    }
+});
+
 app.listen(1200);

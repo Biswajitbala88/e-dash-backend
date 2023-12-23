@@ -42,7 +42,7 @@ app.post("/add-product", async (req, resp)=>{
     resp.send(result);
 });
 
-// add new product
+// product list
 app.get("/products", async (req, resp)=>{
     let result = await Product.find();
     if(result.length>0){
@@ -50,6 +50,12 @@ app.get("/products", async (req, resp)=>{
     }else{
         resp.send({result: "No product found"});
     }
+});
+
+// delete product
+app.delete("/product/:id", async (req, resp)=>{
+    const result = await Product.deleteOne({_id:req.params.id})
+    resp.send(result);
 });
 
 app.listen(1200);

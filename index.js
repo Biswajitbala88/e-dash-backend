@@ -58,4 +58,34 @@ app.delete("/product/:id", async (req, resp)=>{
     resp.send(result);
 });
 
+// get product details
+app.get("/productDetails/:id", async (req, resp)=>{
+    try{
+        let result = await Product.find({_id:req.params.id});
+        if(result.length>0){
+            resp.send(result);
+        }else{
+            resp.send({result: "No product found"});
+        }
+    } catch (error) {
+        resp.status(500).send({ error: "Internal Server Error" });
+    }
+});
+
+// update product
+app.post("/update-product/:id", async (req, resp)=>{
+    const { id } = req.params;
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
+        if (!updatedProduct) {
+            return resp.status(404).json({ error: "Product not found" });
+        }
+        return resp.status(200).json(updatedProduct);
+    } catch (error) {
+        return resp.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
+
 app.listen(1200);

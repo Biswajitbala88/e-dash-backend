@@ -72,19 +72,23 @@ app.get("/productDetails/:id", async (req, resp)=>{
     }
 });
 
-// update product
-app.post("/update-product/:id", async (req, resp)=>{
+// Update existing product
+app.put("/update-product/:id", async (req, res) => {
     const { id } = req.params;
+  
     try {
-        const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
-        if (!updatedProduct) {
-            return resp.status(404).json({ error: "Product not found" });
-        }
-        return resp.status(200).json(updatedProduct);
+      const updatedProduct = await Product.updateOne({_id: req.params.id}, {$set: req.body});
+  
+      if (!updatedProduct) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+  
+      return res.status(200).json(updatedProduct);
     } catch (error) {
-        return resp.status(500).json({ error: "Internal Server Error" });
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-});
+  });
+  
 
 
 
